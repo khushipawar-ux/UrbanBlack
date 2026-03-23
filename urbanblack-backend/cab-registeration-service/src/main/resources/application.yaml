@@ -1,0 +1,53 @@
+spring:
+  application:
+    name: cab-registration-service
+
+  datasource:
+    url: jdbc:postgresql://postgres:5432/cab_registration_db
+    username: postgres
+    password: root
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  kafka:
+    bootstrap-servers: kafka:9092
+    consumer:
+      group-id: cab-registration-service-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: "*"
+            value:
+              default:
+                type: com.urbanblack.common.dto.CabStatusUpdateEvent
+
+server:
+  port: 8085
+  forward-headers-strategy: framework
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka
+  instance:
+    prefer-ip-address: true
+
+jwt:
+  secret: urbanblacksecretkeyurbanblacksecretkey123456
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html

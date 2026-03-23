@@ -1,0 +1,117 @@
+server:
+  port: 8086
+  forward-headers-strategy: framework
+
+spring:
+  application:
+    name: employee-details-service
+
+  datasource:
+    url: jdbc:postgresql://postgres:5432/employee_details_db
+    username: postgres
+    password: root
+    driver-class-name: org.postgresql.Driver
+
+  # ─── Kafka Configuration ─────────────────────────────────────────────────────
+  kafka:
+    bootstrap-servers: kafka:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.add.type.headers: false
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        format_sql: true
+
+  jackson:
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
+
+  # ─── Mail Configuration (Gmail SMTP) ────────────────────────────────────────
+  # Setup steps:
+  #   1. Use a Gmail account
+  #   2. Enable 2-Factor Auth: https://myaccount.google.com/security
+  #   3. Generate App Password: https://myaccount.google.com/apppasswords
+  #   4. Set MAIL_USERNAME and MAIL_PASSWORD as env variables
+  #      OR replace the default values below directly
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: urbanblack63@gmail.com
+    password: nann lrpz uapw zslo
+    test-connection: false
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+        debug: false
+    default-encoding: UTF-8
+
+jwt:
+  secret: urbanblacksecretkeyurbanblacksecretkey123456
+  expiration: 86400000
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+
+  instance:
+    prefer-ip-address: true
+    hostname: employee-details-service
+
+feign:
+  client:
+    config:
+      default:
+        loggerLevel: full
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    root: INFO
+    org.hibernate.SQL: DEBUG
+    org.springframework.web: INFO
+    org.springframework.security: DEBUG
+    EmployeeDetails_Service: DEBUG
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+    try-it-out-enabled: true
+    operations-sorter: method
+    tags-sorter: alpha
+    display-request-duration: true
+  packages-to-scan: EmployeeDetails_Service.EmployeeDetails_Service
+
+# ─── QuickKYC Service URL ────────────────────────────────────────────────────
+# In Docker: the Feign client uses Eureka to discover quickKyc-service.
+# In LOCAL DEV: set this to http://localhost:8089 (quickkyc-service local port).
+# Override via env var: QUICKKYC_SERVICE_URL=http://localhost:8089
+quickkyc-service:
+  url: ${QUICKKYC_SERVICE_URL:http://localhost:8087}
