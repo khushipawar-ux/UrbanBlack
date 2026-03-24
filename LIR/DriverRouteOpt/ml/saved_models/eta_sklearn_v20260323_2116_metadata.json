@@ -1,0 +1,38 @@
+{
+  "version_tag": "sklearn_v20260323_2116",
+  "algorithm": "GradientBoostingRegressor (sklearn)",
+  "trained_at": "2026-03-23T21:16:57.337212",
+  "training_rows": 398,
+  "validation_rows": 100,
+  "features": [
+    "distance_km",
+    "google_eta_min",
+    "hour_of_day",
+    "day_of_week",
+    "is_weekend",
+    "is_peak_hour",
+    "is_holiday",
+    "traffic_congestion_score",
+    "rainfall_mm",
+    "total_turns",
+    "total_signals",
+    "is_raining",
+    "hour_sin",
+    "hour_cos",
+    "dow_sin",
+    "dow_cos",
+    "distance_x_traffic",
+    "peak_x_distance",
+    "rain_x_traffic"
+  ],
+  "target": "actual_duration_min",
+  "n_estimators": 500,
+  "metrics": {
+    "mae_minutes": 7.367,
+    "rmse_minutes": 12.114,
+    "mape_pct": 16.818,
+    "r2_score": 0.8534,
+    "within_10pct_pct": 48.0
+  },
+  "note": "Use ml/train.py (LightGBM) for production \u2014 better accuracy"
+}

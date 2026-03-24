@@ -1,0 +1,40 @@
+# Urban Black — Route Optimization Engine
+# Python 3.10+
+
+# API Framework
+fastapi==0.111.0
+uvicorn[standard]==0.29.0
+pydantic==2.7.1
+python-dotenv==1.0.1
+
+# Database
+asyncpg==0.29.0
+sqlalchemy[asyncio]==2.0.30
+psycopg2-binary==2.9.9
+
+# Cache
+redis==5.0.4
+
+# ML / Data
+lightgbm==4.3.0
+scikit-learn==1.4.2
+xgboost==2.0.3
+pandas==2.2.2
+numpy==1.26.4
+joblib==1.4.2
+
+# Google Maps
+googlemaps==4.10.0
+
+# HTTP client (async)
+httpx==0.27.0
+
+# Monitoring / Logging
+structlog==24.1.0
+prometheus-client==0.20.0
+
+# Utils
+tenacity==8.3.0      # retry logic
+polyline==2.0.2      # encode/decode Google polylines
+haversine==2.8.1     # fast distance calculation
+# pytz not needed — using stdlib datetime.timezone
