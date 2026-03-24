@@ -1,3 +1,8 @@
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
 from fastapi import FastAPI, Depends, BackgroundTasks
 from sqlalchemy.ext.asyncio import AsyncSession
 import asyncio

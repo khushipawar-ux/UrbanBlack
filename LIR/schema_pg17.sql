@@ -27,8 +27,8 @@ SET standard_conforming_strings = on;
 -- ============================================================
 -- EXTENSIONS
 -- ============================================================
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-CREATE EXTENSION IF NOT EXISTS postgis;   -- for geometry if used later
+--CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+--CREATE EXTENSION IF NOT EXISTS postgis;   -- for geometry if used later
 
 -- ============================================================
 -- ENUMS
@@ -498,7 +498,8 @@ CREATE TABLE driver_shifts (
 INSERT INTO driver_shifts (driver_id,shift_ref,shift_start,shift_end,status,goal_km,goal_km_reached,total_ride_km,total_dead_km,total_free_roaming_km,total_km,last_known_lat,last_known_lng,gps_sample_mode,tracking_session_id)
 SELECT
   d.id,
-  'SHIFT-' || TO_CHAR(NOW() - ((n*24)::text || ' hours')::interval,'YYYYMMDD') || '-' || d.employee_id,
+  -- Unique: employee_id + zero-padded sequence + date — no two drivers share the same ref
+  d.employee_id || '-' || LPAD(n::text,3,'0') || '-' || TO_CHAR(NOW() - ((n*24)::text || ' hours')::interval,'YYYYMMDD'),
   NOW() - ((n*24 + 8)::text || ' hours')::interval,
   NOW() - ((n*24)::text || ' hours')::interval,
   'ONLINE',
@@ -817,3 +818,4 @@ GROUP BY r.id, r.status, r.ride_km, rr.actual_ride_km,
 -- ============================================================
 -- END OF FILE
 -- ============================================================
+
