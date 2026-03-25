@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+sqlalchemy
+asyncpg
+aiokafka
+numpy
+pydantic
+pydantic-settings
+python-dotenv
