@@ -1,0 +1,12 @@
+import psycopg2
+from psycopg2 import OperationalError
+from src.config.config import DB_CONFIG
+
+
+def get_connection():
+    try:
+        conn = psycopg2.connect(**DB_CONFIG)
+        return conn
+    except OperationalError as e:
+        print("❌ Database connection failed:", e)
+        return None
